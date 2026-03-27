@@ -1,0 +1,25 @@
+:root { --primary: #1e3c72; --secondary: #2a5298; }
+body { background: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.navbar { background: linear-gradient(90deg, #0a2b4e 0%, #1e3c72 100%); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.navbar-brand { font-weight: bold; font-size: 1.6rem; color: #fff !important; }
+.navbar-brand i { color: #ffc107; }
+.nav-link { color: rgba(255,255,255,0.9) !important; }
+.nav-link:hover { color: #ffc107 !important; transform: translateY(-2px); }
+.btn-outline-light { border-color: rgba(255,255,255,0.6); }
+.btn-outline-light:hover { background-color: #ffc107; border-color: #ffc107; color: #1e3c72; }
+.card { border: none; border-radius: 1rem; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.3s; }
+.card:hover { transform: translateY(-5px); box-shadow: 0 20px 30px rgba(0,0,0,0.12); }
+.stat-card .card-body { position: relative; }
+.stat-icon { font-size: 3rem; opacity: 0.2; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); }
+.stat-card h2 { font-size: 2rem; font-weight: bold; margin-bottom: 0; }
+.bg-primary { background: linear-gradient(135deg, #1e3c72, #2a5298); }
+.bg-success { background: linear-gradient(135deg, #28a745, #1e7e34); }
+.bg-info { background: linear-gradient(135deg, #17a2b8, #117a8b); }
+.table { background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.table thead th { background: #1e3c72; color: white; border-bottom: none; padding: 1rem; }
+.table tbody tr:hover { background-color: rgba(30,60,114,0.05); }
+.btn { border-radius: 2rem; padding: 0.5rem 1.25rem; font-weight: 500; transition: all 0.3s; }
+.btn-primary { background: linear-gradient(135deg, #1e3c72, #2a5298); border: none; }
+.btn-primary:hover { background: linear-gradient(135deg, #0a2b4e, #1e3c72); transform: translateY(-2px); }
+.form-control, .form-select { border-radius: 0.75rem; padding: 0.6rem 1rem; }
+.form-control:focus, .form-select:focus { border-color: #1e3c72; box-shadow: 0 0 0 0.2rem rgba(30,60,114,0.25); }
