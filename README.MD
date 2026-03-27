@@ -18,10 +18,10 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 ## 🚀 Installation
 
 1. **Clone or download** this repository into your XAMPP `htdocs` folder:
-   ```bash
+   ```
    C:\xampp\htdocs\scholasys\
 
-   ```bash
+   ```
 
 2. **Start XAMPP** and enable Apache and MySQL.
 
@@ -33,7 +33,7 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 
 5. **Install PHP dependencies** with Composer:  
    Open a command prompt in the project folder and run:
-   ```bash
+   ```
    composer install
    ```
 
