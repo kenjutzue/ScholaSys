@@ -1,5 +1,3 @@
-# ScholaSys – Graduate Data Management System
-
 ```markdown
 # ScholaSys – Graduate Data Management System
 
@@ -9,18 +7,17 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 
 ## 📋 Requirements
 
-- **XAMPP** (Apache, MySQL, PHP 7.4 or higher) – tested with PHP 8.2.12
-- **Composer** (for installing dependencies)
+- **XAMPP** (Apache, MySQL, PHP 7.4 or higher) – tested with PHP 8.2.12  
+- **Composer** (for installing dependencies)  
 - Web browser (Chrome, Firefox, Edge)
 
 ---
 
 ## 🚀 Installation
 
-1. **Clone or download** this repository into your XAMPP `htdocs` folder:
+1. **Clone or download** this repository into your XAMPP `htdocs` folder:  
    ```
    C:\xampp\htdocs\scholasys\
-
    ```
 
 2. **Start XAMPP** and enable Apache and MySQL.
@@ -33,24 +30,22 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 
 5. **Install PHP dependencies** with Composer:  
    Open a command prompt in the project folder and run:
-   ```
+   ```bash
    composer install
    ```
-
    This installs PHPMailer, Dompdf, and TwoFactorAuth.
 
-1. **Set file permissions** – ensure the `assets/uploads/` folder is writable (on Windows it usually is).
+6. **Set file permissions** – ensure the `assets/uploads/` folder is writable (on Windows it usually is).
 
-2. **Update SMTP settings** (if you plan to use email reminders or newsletters):  
+7. **Update SMTP settings** (if you plan to use email reminders or newsletters):  
    Edit `send_survey_reminders.php`, `send_anniversary_reminders.php`, and `pages/newsletter.php` with your email credentials.
 
-3. **Access the system** in your browser:  
-
-   ```bash
+8. **Access the system** in your browser:  
+   ```
    http://localhost/scholasys/public/
    ```
 
-4. **Log in** with the default administrator account:
+9. **Log in** with the default administrator account:
    - Username: `admin`
    - Password: `admin123`
 
@@ -61,7 +56,6 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 ## ✨ Features
 
 ### Core Management
-
 - **Graduate Records** – add, edit, search, filter, paginate, and export (CSV)
 - **Employment Tracking** – current job (employer, title, salary, type) and complete **employment history** (multiple jobs with dates)
 - **Tracer Surveys** – public form with unique token links; auto‑record responses
@@ -69,25 +63,21 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 - **Dashboard** – statistics, employment trend chart, salary distribution, industry pie chart, recent graduates
 
 ### Alumni Engagement
-
 - **Events Management** – create events, capacity, public registration, attendance tracking
 - **Announcements** – post news/updates visible on the dashboard
 - **Public Alumni Directory** – opt‑in directory with search/filter
 
 ### User & Security
-
 - **Multi‑role Users** – Admin and Staff roles; Admin can manage users, Staff can manage graduates but cannot delete
 - **Two‑Factor Authentication (2FA)** – optional, uses Google Authenticator
 - **Password Change** – users can change their own password
 - **Activity Logs** (optional – you can extend)
 
 ### Automation
-
 - **Automated Survey Reminders** – cron script sends emails at 6, 12, 24, 36 months after graduation
 - **Anniversary Reminders** – congratulatory emails on 1st, 5th, 10th, etc., anniversaries
 
 ### Data Tools
-
 - **CSV Import** – bulk import graduates from a CSV file
 - **Custom Report Builder** – select fields and filters, generate dynamic tables, export to CSV
 - **Document Uploads** – profile picture and CV (PDF) for each graduate
@@ -97,7 +87,7 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
 
 ## 📁 File Structure
 
-```bash
+```
 scholasys/
 ├── assets/               # CSS, JS, uploads
 ├── includes/             # config.php, header.php, footer.php
@@ -147,5 +137,4 @@ Developed as a comprehensive solution for graduate data management. For question
 ---
 
 **Enjoy using ScholaSys!** 🎓
-
----
+```
