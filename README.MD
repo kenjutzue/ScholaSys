@@ -36,6 +36,8 @@ ScholaSys is a complete web‑based **Graduate Data Management System** built wi
    ```
 
    This installs PHPMailer, Dompdf, and TwoFactorAuth.
+   
+   If you dont know how to install those vendors, simply type "composer require phpmailer/phpmailer dompdf/dompdf robthree/twofactorauth" in your               command terminal visual code studio
 
 6. **Set file permissions** – ensure the [assets/uploads/](assets/uploads/) folder is writable (on Windows it usually is).
 
