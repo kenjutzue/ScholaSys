@@ -1,5 +1,6 @@
 <?php
 require_once '../includes/config.php';
+require_once '../includes/recaptcha_config.php';
 
 if (isLoggedIn()) {
     header('Location: /scholasys/pages/dashboard.php');
@@ -10,29 +11,37 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $recaptcha_response = $_POST['g-recaptcha-response'];
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch();
+    $recaptcha_verify = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . RECAPTCHA_SECRET_KEY . "&response=" . $recaptcha_response);
+    $recaptcha_result = json_decode($recaptcha_verify);
 
-    if ($user && password_verify($password, $user['password'])) {
-        if ($user['twofa_enabled']) {
-            $_SESSION['2fa_user_id'] = $user['id'];
-            $_SESSION['2fa_username'] = $user['username'];
-            $_SESSION['2fa_role'] = $user['role'];
-            $_SESSION['2fa_profile_image'] = $user['profile_image'];
-            header('Location: /scholasys/public/twofa_verify.php');
-            exit;
+    if ($recaptcha_result->success && $recaptcha_result->score >= RECAPTCHA_SCORE_THRESHOLD && $recaptcha_result->action == 'login') {
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $user = $stmt->fetch();
+
+        if ($user && password_verify($password, $user['password'])) {
+            if ($user['twofa_enabled']) {
+                $_SESSION['2fa_user_id'] = $user['id'];
+                $_SESSION['2fa_username'] = $user['username'];
+                $_SESSION['2fa_role'] = $user['role'];
+                $_SESSION['2fa_profile_image'] = $user['profile_image'];
+                header('Location: /scholasys/public/twofa_verify.php');
+                exit;
+            } else {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['profile_image'] = $user['profile_image'];
+                header('Location: /scholasys/pages/dashboard.php');
+                exit;
+            }
         } else {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['profile_image'] = $user['profile_image'];
-            header('Location: /scholasys/pages/dashboard.php');
-            exit;
+            $error = "Invalid username or password.";
         }
     } else {
-        $error = "Invalid username or password.";
+        $error = "Bot verification failed. Please try again.";
     }
 }
 ?>
@@ -55,10 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             height: 100%;
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
         body {
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
         }
         /* Sliding diagonals background */
         .bg {
@@ -212,10 +221,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.8rem;
             color: #6c757d;
         }
+        .grecaptcha-badge { 
+            visibility: hidden; /* Hides the reCAPTCHA badge (optional) */
+        }
     </style>
 </head>
 <body>
-    <!-- Sliding diagonal backgrounds -->
+    <!-- Sliding diagonals background -->
     <div class="bg"></div>
     <div class="bg bg2"></div>
     <div class="bg bg3"></div>
@@ -234,7 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 <?php endif; ?>
-                <form method="post">
+                <form id="loginForm" method="post">
                     <div class="mb-3">
                         <label class="form-label">Username</label>
                         <div class="input-group">
@@ -249,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="password" class="form-control" name="password" placeholder="Enter your password" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 btn-login">
+                    <button type="submit" class="btn btn-primary w-100 btn-login" id="loginButton">
                         <i class="fas fa-sign-in-alt me-2"></i> Login
                     </button>
                 </form>
@@ -260,6 +272,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
+    <script src="https://www.google.com/recaptcha/api.js?render=<?= RECAPTCHA_SITE_KEY ?>"></script>
+    <script>
+        const form = document.getElementById('loginForm');
+        const loginButton = document.getElementById('loginButton');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Verifying...';
+
+            grecaptcha.ready(function() {
+                grecaptcha.execute('<?= RECAPTCHA_SITE_KEY ?>', {action: 'login'}).then(function(token) {
+                    const tokenInput = document.createElement('input');
+                    tokenInput.type = 'hidden';
+                    tokenInput.name = 'g-recaptcha-response';
+                    tokenInput.value = token;
+                    form.appendChild(tokenInput);
+                    form.submit();
+                });
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
